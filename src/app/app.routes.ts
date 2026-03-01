@@ -5,12 +5,16 @@ import { authGuard } from './guards/auth.guards';
 import { superAdminGuard } from './guards/role.guards';
 import { Complexes } from './pages/complexes/complexes';
 import { Buildings } from './pages/buildings/buildings';
+import { AddAdmin } from './pages/add-admin/add-admin';
+import { AddComplex } from './pages/add-complex/add-complex';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },
     { path: 'login', component: Login },
-    {path: 'admins' , component:Admins , canActivate: [authGuard]},
+    { path: 'admins' , component:Admins , canActivate: [authGuard]},
     { path: 'complexes', component: Complexes, canActivate: [authGuard] },
     { path: 'buildings', component: Buildings, canActivate: [authGuard] },
+    { path:'add-admin',component: AddAdmin, canActivate: [authGuard,superAdminGuard]},
+    { path:'add-complex',component: AddComplex, canActivate: [authGuard,superAdminGuard]},
     { path: '**', redirectTo: 'login' },
 ];

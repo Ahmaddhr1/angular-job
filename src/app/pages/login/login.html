@@ -46,7 +46,7 @@
     <!-- Button -->
     <button type="submit" [disabled]="loading || form.invalid" class="button">
       <span *ngIf="!loading">Login</span>
-      <span *ngIf="loading" class="flex items-center justify-center gap-2">
+      <span *ngIf="loading" class="spinner-div">
         <div class="spinner"></div>
         Logging in...
       </span>

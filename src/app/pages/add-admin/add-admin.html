@@ -1,0 +1,102 @@
+<div class="container">
+  <!-- Header -->
+  <div class="flex items-center justify-between mb-6">
+    <h1 class="text-2xl font-bold text-gray-800">Add Admin</h1>
+
+    <a routerLink="/admins" class="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300">
+      Back
+    </a>
+  </div>
+  
+  <div *ngIf="error" class="bg-red-100 text-red-700 px-4 py-3 rounded-lg mb-4">
+    {{ error }}
+  </div>
+
+  <div *ngIf="success" class="bg-green-100 text-green-700 px-4 py-3 rounded-lg mb-4">
+    {{ success }}
+  </div>
+
+  
+  <form (ngSubmit)="submit()" [formGroup]="form" class="bg-white border rounded-xl p-6 shadow-sm max-w-2xl">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      
+      <div>
+        <label class="block text-sm font-medium mb-1">Civility</label>
+        <select formControlName="civility" class="input">
+          <option value="Mr">Mr</option>
+          <option value="Mrs">Mrs</option>
+          <option value="Ms">Ms</option>
+        </select>
+      </div>
+
+      <!-- Role -->
+      <div>
+        <label class="block text-sm font-medium mb-1">Role</label>
+        <select formControlName="role" class="input">
+          <option value="Admin">Admin</option>
+          <option value="Super Admin">Super Admin</option>
+        </select>
+      </div>
+
+      
+      <div>
+        <label class="block text-sm font-medium mb-1">First Name</label>
+        <input formControlName="first_name" class="input" placeholder="Ahmad" />
+        <p *ngIf="form.get('first_name')?.touched && form.get('first_name')?.invalid" class="input-error">
+          First name is required (min 2 chars)
+        </p>
+      </div>
+
+      
+      <div>
+        <label class="block text-sm font-medium mb-1">Last Name</label>
+        <input formControlName="last_name" class="input" placeholder="Daher" />
+        <p *ngIf="form.get('last_name')?.touched && form.get('last_name')?.invalid" class="input-error">
+          Last name is required (min 2 chars)
+        </p>
+      </div>
+
+      
+      <div class="md:col-span-2">
+        <label class="block text-sm font-medium mb-1">Email</label>
+        <input formControlName="email" class="input" placeholder="ahmad@admin.com" />
+        <p *ngIf="form.get('email')?.touched && form.get('email')?.invalid" class="input-error">
+          Enter a valid email
+        </p>
+      </div>
+
+      
+      <div>
+        <label class="block text-sm font-medium mb-1">Phone</label>
+        <input formControlName="phone" class="input" placeholder="00000" />
+      </div>
+
+      
+      <div>
+        <label class="block text-sm font-medium mb-1">Status</label>
+        <select formControlName="status" class="input">
+          <option value="active">active</option>
+          <option value="inactive">inactive</option>
+        </select>
+      </div>
+
+      
+      <div class="md:col-span-2">
+        <label class="block text-sm font-medium mb-1">Password</label>
+        <input type="password" formControlName="password" class="input" placeholder="Min 6 characters" />
+        <p *ngIf="form.get('password')?.touched && form.get('password')?.invalid" class="input-error">
+          Password is required (min 6 chars)
+        </p>
+      </div>
+    </div>
+
+    <div class="mt-6 flex items-center gap-3">
+      <button type="submit" class="button" [disabled]="loading">
+        <span *ngIf="!loading">Create Admin</span>
+        <span *ngIf="loading">Creating...</span>
+      </button>
+
+      <div *ngIf="loading" class="big-spinner"></div>
+    </div>
+  </form>
+</div>

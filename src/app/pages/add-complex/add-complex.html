@@ -1,0 +1,82 @@
+<div class="container">
+  <!-- Header -->
+  <div class="flex items-center justify-between mb-6">
+    <h1 class="text-2xl font-bold text-gray-800">Add Complex</h1>
+
+    <a routerLink="/complexes" class="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300">
+      Back
+    </a>
+  </div>
+
+  <!-- Alerts -->
+  <div *ngIf="error" class="bg-red-100 text-red-700 px-4 py-3 rounded-lg mb-4">
+    {{ error }}
+  </div>
+
+  <div *ngIf="success" class="bg-green-100 text-green-700 px-4 py-3 rounded-lg mb-4">
+    {{ success }}
+  </div>
+
+  
+  <form (ngSubmit)="submit()" [formGroup]="form" class="bg-white border rounded-xl p-6 shadow-sm max-w-2xl">
+    <div class="grid grid-cols-1 gap-4">
+
+      
+      <div>
+        <label class="block text-sm font-medium mb-1">Complex Name</label>
+        <input formControlName="name" class="input" placeholder="Name" />
+        <p *ngIf="form.get('name')?.touched && form.get('name')?.invalid" class="input-error">
+          Name is required (min 2 chars)
+        </p>
+      </div>
+
+      
+      <div>
+        <label class="block text-sm font-medium mb-1">Address</label>
+        <input formControlName="address" class="input" placeholder="Address" />
+        <p *ngIf="form.get('address')?.touched && form.get('address')?.invalid" class="input-error">
+          Address is required (min 2 chars)
+        </p>
+      </div>
+
+      
+      <div>
+        <label class="block text-sm font-medium mb-1">Campaign Info</label>
+        <textarea
+          formControlName="campaign_info"
+          class="input"
+          rows="4"
+          placeholder="Description"
+        ></textarea>
+        <p *ngIf="form.get('campaign_info')?.touched && form.get('campaign_info')?.invalid" class="input-error">
+          Campaign info is required (min 5 chars)
+        </p>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium mb-1">Assign Admin (optional)</label>
+        <select formControlName="admin_id" class="input">
+          <option value="">No admin</option>
+          <option *ngFor="let a of admins" [value]="a.id">
+            {{ a.first_name }} {{ a.last_name }} - {{ a.email }}
+          </option>
+        </select>
+
+        <p *ngIf="admins.length === 0" class="text-xs text-gray-500 mt-1">
+          No available admins. You can still create the complex without assigning an admin.
+        </p>
+
+        <p class="text-gray-700 mt-1">Note:This will only list admins that are not selected to any complex or building</p>
+      </div>
+    </div>
+
+    <div class="mt-6 flex items-center gap-3">
+      <button type="submit" class="button" [disabled]="loading">
+        <span *ngIf="!loading">Create Complex</span>
+        <div *ngIf="loading" class="spinner-div"><div class="spinner"></div>Creating...</div>
+      </button>
+
+      <div *ngIf="loading" class="big-spinner"></div>
+    </div>
+  </form>
+</div>

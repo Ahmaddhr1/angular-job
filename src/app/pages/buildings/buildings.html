@@ -1,1 +1,53 @@
-<p>buildings works!</p>
+<div class="container">
+  <!-- Header -->
+  <div class="flex items-center justify-between mb-6">
+    <h1 class="text-2xl font-bold text-gray-800">Buildings</h1>
+
+    <a routerLink="/add-building" class="button">
+      + Add Building
+    </a>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="text-gray-600 min-h-72 flex items-center justify-center w-full">
+    <div class="big-spinner"></div>
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="error" class="bg-red-100 text-red-700 px-4 py-3 rounded-lg mb-4">
+    {{ error }}
+  </div>
+
+  <!-- Cards -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" *ngIf="!loading">
+    <div *ngFor="let b of buildings" class="bg-white border rounded-xl p-5 shadow-sm hover:shadow-md transition">
+      <div class="flex items-start justify-between">
+        <div>
+          <div class="text-lg font-semibold text-gray-800">
+            {{ b.name }}
+          </div>
+          <div class="text-sm text-gray-500">
+            Complex: {{ b.complex_name || ('#' + b.complex_id) }}
+          </div>
+          <div class="text-sm text-gray-500">
+            Admin: {{ b.admin_name || '-' }}
+          </div>
+        </div>
+
+        <span class="text-xs px-2 py-1 rounded-full badge-2">
+          ID: {{ b.id }}
+        </span>
+      </div>
+
+      <!-- Actions -->
+      <div class="mt-4 flex items-center gap-2">
+        <button
+          (click)="deleteBuilding(b.id)"
+          class="px-3 py-2 rounded-lg bg-red-500 text-white text-sm hover:bg-red-600 transition"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
