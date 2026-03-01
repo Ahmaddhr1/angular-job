@@ -1,4 +1,4 @@
-export type AdminUser = {
+export type AdminObj = {
   id: number;
   civility: string | null;
   first_name: string;

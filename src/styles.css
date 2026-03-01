@@ -1,3 +1,50 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import 'tailwindcss';
+
+.button{
+    @apply w-full bg-black hover:bg-gray-800 text-white py-2 rounded-lg transition disabled:bg-gray-400;
+}
+
+.input-error {
+    @apply text-red-500 text-sm mt-1
+}
+
+.spinner {
+    @apply w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin
+}
+
+.input {
+    @apply w-full border rounded-lg px-3 py-2 focus:outline-none 
+}
+
+
+
+
+.app-shell {
+  @apply min-h-screen bg-gray-50 flex;
+}
+
+.sidebar {
+  @apply hidden md:flex md:flex-col w-64 bg-white border-r border-gray-200 shadow-sm;
+}
+
+.sidebar-header {
+  @apply px-5 py-4 border-b border-gray-200 flex items-center gap-3;
+}
+
+
+.sidebar-link {
+  @apply flex items-center gap-3 px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-black transition;
+}
+
+/* Active state for routerLinkActive */
+.sidebar-link-active {
+  @apply bg-black text-white ;
+}
+
+
+.mobile-topbar {
+  @apply md:hidden flex items-center justify-between px-4 py-3 bg-white border-b border-gray-200;
+}
+
