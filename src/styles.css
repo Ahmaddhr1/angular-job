@@ -3,7 +3,7 @@
 @import 'tailwindcss';
 
 .button{
-    @apply w-full bg-black hover:bg-gray-800 text-white py-2 rounded-lg transition disabled:bg-gray-400;
+    @apply bg-black hover:bg-gray-800 text-white py-2 px-5 rounded-lg transition disabled:bg-gray-400;
 }
 
 .input-error {
@@ -14,19 +14,33 @@
     @apply w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin
 }
 
+.big-spinner {
+    @apply w-10 h-10 border-2 border-black border-t-transparent rounded-full animate-spin
+}
+
 .input {
     @apply w-full border rounded-lg px-3 py-2 focus:outline-none 
 }
 
+.badge-1 {
+    @apply bg-purple-100 text-purple-700
+}
+.badge-2 {
+    @apply bg-gray-100 text-gray-700
+}
 
 
+
+.container {
+    @apply w-full py-10 min-h-screen
+}
 
 .app-shell {
-  @apply min-h-screen bg-gray-50 flex;
+  @apply min-h-screen flex;
 }
 
 .sidebar {
-  @apply hidden md:flex md:flex-col w-64 bg-white border-r border-gray-200 shadow-sm;
+  @apply hidden md:flex md:flex-col w-64 bg-white border-r border-gray-200 shadow-sm max-h-screen;
 }
 
 .sidebar-header {
@@ -35,7 +49,7 @@
 
 
 .sidebar-link {
-  @apply flex items-center gap-3 px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-black transition;
+  @apply flex items-center gap-3 px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-700 hover:text-white transition;
 }
 
 /* Active state for routerLinkActive */

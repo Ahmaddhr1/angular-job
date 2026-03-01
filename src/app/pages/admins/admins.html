@@ -1,1 +1,72 @@
-<p>admins works!</p>
+<div class="container">
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-6">
+        <h1 class="text-2xl font-bold text-gray-800">Admins</h1>
+
+        <ng-container *ngIf="admin$ | async as a" class="w-25">
+            <a *ngIf="a.role == 'Super Admin'" routerLink="/add-admin" class="button ">
+                + Add Admin
+            </a>
+        </ng-container>
+    </div>
+
+    <div class="mb-6 w-72">
+        <input type="text" placeholder="Search admins..." class="input" />
+    </div>
+
+    <ng-container *ngIf="admin$ | async as a">
+        <div *ngIf="a.role == 'Super Admin'" class="px-2 rounded-full bg-yellow-200 py-2 font-bold mb-3">
+            Viewing this means you are logged in as a normal admin  to get access to add an admin login as a super admin!
+        </div>
+    </ng-container>
+
+    <div *ngIf="loading" class="text-gray-600 min-h-72 flex items-center justify-center w-full">
+        <div class="big-spinner"></div>
+    </div>
+
+    <div *ngIf="error" class="bg-red-100 text-red-700 px-4 py-3 rounded-lg mb-4">
+        {{ error }}
+    </div>
+
+    <!-- Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" *ngIf="!loading">
+        <div *ngFor="let a of admins" class="bg-white border rounded-xl p-5 shadow-sm hover:shadow-md transition">
+            <div class="flex items-start justify-between">
+                <div>
+                    <div class="text-lg font-semibold text-gray-800">
+                        {{ a.first_name }} {{ a.last_name }}
+                    </div>
+                    <div class="text-sm text-gray-500">{{ a.email }}</div>
+                </div>
+
+                <span class="text-xs px-2 py-1 rounded-full" [ngClass]="a.role === 'Super Admin'
+            ? 'badge-1'
+            : 'badge-2'">
+                    {{ a.role }}
+                </span>
+            </div>
+
+            <div class="mt-4 space-y-1 text-sm text-gray-700">
+                <div><span class="font-medium">Phone:</span> {{ a.phone || '-' }}</div>
+                <div>
+                    <span class="font-medium">Status:</span>
+                    <span [ngClass]="a.status === 'active'
+              ? 'text-green-600'
+              : 'text-red-600'">
+                        {{ a.status }}
+                    </span>
+                </div>
+
+                <div>
+                    <span class="font-medium">Complex:</span>
+                    {{ a.complex_name || '-' }}
+                </div>
+
+                <div>
+                    <span class="font-medium">Building:</span>
+                    {{ a.building_name || '-' }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

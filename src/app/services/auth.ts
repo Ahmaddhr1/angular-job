@@ -45,6 +45,10 @@ export class Auth {
     return sessionStorage.getItem('token');
   }
 
+  isLoggedIn(){
+    return !!this.getToken();
+  }
+
   private getStoredAdmin():AdminObj | null {
     const admin =sessionStorage.getItem('admin');
     if(!admin) return null;

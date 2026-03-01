@@ -11,12 +11,17 @@ import { navLinks } from '../../../utils/navLinks';
   styleUrl: './sidebar.css',
 })
 export class Sidebar {
-  constructor(public router: Router, public auth: Auth) {}
+  
 
   navLinkss = navLinks;
   
   mobileOpen = false;
 
+  admin$;
+
+  constructor(public router: Router, public auth: Auth) {
+    this.admin$ = this.auth.admin$;
+  }
   toggleMobile() {
     this.mobileOpen = !this.mobileOpen;
   }
