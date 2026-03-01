@@ -1,0 +1,65 @@
+<div class="container">
+  <div class="flex items-center justify-between mb-6">
+    <h1 class="text-2xl font-bold text-gray-800">Add Building</h1>
+
+    <a routerLink="/buildings" class="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300">
+      Back
+    </a>
+  </div>
+
+  <div *ngIf="error" class="bg-red-100 text-red-700 px-4 py-3 rounded-lg mb-4">
+    {{ error }}
+  </div>
+
+  <div *ngIf="success" class="bg-green-100 text-green-700 px-4 py-3 rounded-lg mb-4">
+    {{ success }}
+  </div>
+
+  <form (ngSubmit)="submit()" [formGroup]="form" class="bg-white border rounded-xl p-6 shadow-sm max-w-2xl">
+    <div class="grid grid-cols-1 gap-4">
+      <div>
+        <label class="block text-sm font-medium mb-1">Building Name</label>
+        <input formControlName="name" class="input" placeholder="Building A" />
+        <p *ngIf="form.get('name')?.touched && form.get('name')?.invalid" class="input-error">
+          Name is required (min 2 chars)
+        </p>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium mb-1">Complex</label>
+        <select formControlName="complex_id" class="input">
+          <option value="" disabled>Select a complex</option>
+          <option *ngFor="let c of complexes" [value]="c.id">
+            {{ c.name }}
+          </option>
+        </select>
+        <p *ngIf="form.get('complex_id')?.touched && form.get('complex_id')?.invalid" class="input-error">
+          Complex is required
+        </p>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium mb-1">Assign Admin (optional)</label>
+        <select formControlName="admin_id" class="input">
+          <option value="">No admin</option>
+          <option *ngFor="let a of admins" [value]="a.id">
+            {{ a.first_name }} {{ a.last_name }} - {{ a.email }}
+          </option>
+        </select>
+        <p *ngIf="admins.length === 0" class="text-md text-gray-500 mt-1">
+          No available admins. You can still create the building without assigning an admin.
+        </p>
+        <p class="text-gray-700 mt-1">Note:This will only list admins that are not selected to any complex or building</p>
+      </div>
+    </div>
+
+    <div class="mt-6 flex items-center gap-3">
+      <button type="submit" class="button" [disabled]="loading">
+        <span *ngIf="!loading">Create Building</span>
+        <span *ngIf="loading">Creating...</span>
+      </button>
+
+      <div *ngIf="loading" class="big-spinner"></div>
+    </div>
+  </form>
+</div>

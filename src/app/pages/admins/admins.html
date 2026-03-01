@@ -16,7 +16,7 @@
 
     <ng-container *ngIf="admin$ | async as a">
         <div *ngIf="a.role == 'Super Admin'" class="px-2 rounded-full bg-yellow-200 py-2 font-bold mb-3">
-            Viewing this means you are logged in as a normal admin  to get access to add an admin login as a super admin!
+            Viewing this means you are logged in as a normal admin to get access to add an admin login as a super admin!
         </div>
     </ng-container>
 
@@ -68,5 +68,14 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div *ngIf="!loading && !error" class="flex items-center justify-end gap-2 mt-6">
+        <button class="button" (click)="prevPage()" [disabled]="page === 1">
+            Prev
+        </button>
+
+        <button class="button" (click)="nextPage()" [disabled]="!hasNext">
+            Next
+        </button>
     </div>
 </div>
