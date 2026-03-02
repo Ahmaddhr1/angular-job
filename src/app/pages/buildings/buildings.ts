@@ -21,6 +21,11 @@ type BuildingsResponse = {
   data: BuildingObj[];
 };
 
+type ComplexSimple = {
+  id: number;
+  name: string;
+};
+
 @Component({
   selector: 'app-buildings',
   standalone: true,
@@ -32,6 +37,9 @@ export class Buildings {
   loading = false;
   error = '';
   buildings: BuildingObj[] = [];
+  allBuildings: BuildingObj[] = [];
+  complexes: ComplexSimple[] = [];
+  selectedComplexId: number | null = null;
 
   admin$;
   private baseUrl = environment.apiUrl;
@@ -43,6 +51,17 @@ export class Buildings {
   ) {
     this.admin$ = this.auth.admin$;
     this.fetchBuildings();
+    this.fetchComplexes();
+  }
+
+  fetchComplexes() {
+    this.http
+      .get<{ data: ComplexSimple[] }>(`${this.baseUrl}/complexes/simplified`)
+      .subscribe({
+        next: (res) => {
+          this.complexes = res.data || [];
+        }
+      });
   }
 
   fetchBuildings() {
@@ -59,13 +78,31 @@ export class Buildings {
       )
       .subscribe({
         next: (res) => {
-          this.buildings = res.data || [];
+          this.allBuildings = res.data || [];
+          this.buildings = this.allBuildings;
+          if (this.selectedComplexId !== null) {
+            this.applyComplexFilter(this.selectedComplexId);
+          }
         },
         error: (err) => {
           this.error = err?.error?.error || 'Failed to load buildings';
         },
       });
   }
+
+  applyComplexFilter(complexId: number | null) {
+    this.selectedComplexId = complexId;
+
+    if (complexId === null) {
+      this.buildings = this.allBuildings;
+      return;
+    }
+
+    this.buildings = this.allBuildings.filter(
+      (b) => b.complex_id === complexId
+    );
+  }
+
 
   deleteBuilding(id: number) {
     if (!confirm('Delete this building?')) return;

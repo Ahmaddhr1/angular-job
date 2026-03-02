@@ -93,7 +93,7 @@
     <div class="mt-6 flex items-center gap-3">
       <button type="submit" class="button" [disabled]="loading">
         <span *ngIf="!loading">Create Admin</span>
-        <span *ngIf="loading">Creating...</span>
+        <div class="spinner-div" *ngIf="loading"><div class="spinner"></div>Creating...</div>
       </button>
 
       <div *ngIf="loading" class="big-spinner"></div>

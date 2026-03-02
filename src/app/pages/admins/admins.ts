@@ -11,6 +11,12 @@ import { finalize } from 'rxjs/operators';
 
 type AdminsResponse = {
   data: AdminObj[];
+  pagination: {
+    page: number;
+    per_page: number;
+    total: number;
+    pages: number;
+  };
 };
 
 @Component({
@@ -29,8 +35,13 @@ export class Admins {
 
   page = 1;
   perPage = 3;
+  total = 0;
+  pages = 1;
 
-  hasNext = false;
+
+  search = "";
+
+
 
   private baseUrl = environment.apiUrl;
 
@@ -43,7 +54,8 @@ export class Admins {
     this.loading = true;
     this.error = '';
 
-    const params = new HttpParams().set('page', page);
+    let params = new HttpParams().set('page', page).set('per_page', this.perPage);
+    if (this.search) params = params.set('q', this.search.trim())
 
 
     this.http.get<AdminsResponse>(`${this.baseUrl}/admins`, { params }).pipe(
@@ -55,19 +67,20 @@ export class Admins {
       next: (res) => {
         this.admins = res.data || [];
         this.loading = false;
-        this.page = page;
-        this.hasNext = this.admins.length === this.perPage;
+        this.page = res.pagination.page;
+        this.perPage = res.pagination.per_page;
+        this.total = res.pagination.total;
+        this.pages = res.pagination.pages;
       },
       error: (err) => {
         this.loading = false;
-        if (err?.status === 404) {
-          this.hasNext = false;      
-          this.error = '';
-          return;
-        }
-        this.error = err?.error?.error || 'Failed to load admins';
+        err?.error?.message ? this.error = err?.error?.message : this.error = err?.error?.error || "Failed fetching admins";
       },
     });
+  }
+
+  get hasNext() {
+    return this.page < this.pages;
   }
 
   nextPage() {
@@ -75,5 +88,10 @@ export class Admins {
   }
   prevPage() {
     if (this.page > 1) this.fetchAdmins(this.page - 1);
+  }
+
+  onSearchChange(value:string) {
+    this.search=value;
+    this.fetchAdmins(1)
   }
 }
